@@ -3,7 +3,12 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Index from "./pages/Index";
+import SidebarLayout from "./components/SidebarLayout";
+import Auth from "./pages/Auth";
+import Dashboard from "./pages/Dashboard";
+import Leads from "./pages/Leads";
+import Orders from "./pages/Orders";
+import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -15,8 +20,16 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Index />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+          {/* Auth Route */}
+          <Route path="/auth" element={<Auth />} />
+
+          {/* Protected Routes nested inside SidebarLayout */}
+          <Route path="/" element={<SidebarLayout><Dashboard /></SidebarLayout>} />
+          <Route path="/leads" element={<SidebarLayout><Leads /></SidebarLayout>} />
+          <Route path="/orders" element={<SidebarLayout><Orders /></SidebarLayout>} />
+          <Route path="/settings" element={<SidebarLayout><Settings /></SidebarLayout>} />
+
+          {/* Catch-all */}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
